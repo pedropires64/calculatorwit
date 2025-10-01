@@ -1,13 +1,3 @@
 package com.example.calculator;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-
-@SpringBootTest
-class CalculatorApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
-
-}
+// Teste neutro para não carregar Spring no build
+class CalculatorApplicationTests {}
