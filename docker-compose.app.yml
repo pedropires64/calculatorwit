@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  rest:
+    build:
+      context: .
+      dockerfile: rest/Dockerfile
+    image: calc-rest:local
+    depends_on:
+      - kafka
+    environment:
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - SPRING_PROFILES_ACTIVE=
+    ports:
+      - "8080:8080"
+
+  calculator:
+    build:
+      context: .
+      dockerfile: calculator/Dockerfile
+    image: calc-calculator:local
+    depends_on:
+      - kafka
+    environment:
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - SPRING_PROFILES_ACTIVE=
+    ports:
+      - "8081:8081"
