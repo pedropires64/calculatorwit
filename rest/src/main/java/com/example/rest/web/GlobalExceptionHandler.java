@@ -6,12 +6,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.stream.Collectors;
 
-@ControllerAdvice
+/**
+ * Restringe o advice aos controllers da API (CalcController),
+ * não interfere com endpoints do Springdoc/Swagger.
+ */
+@RestControllerAdvice(assignableTypes = { CalcController.class })
 public class GlobalExceptionHandler {
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -29,7 +33,7 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ApiError> handleGeneric(Exception ex) {
-    // Por omissão tratamos como upstream timeout para o caso mais comum do Kafka
+    // Erros genéricos no nosso controller: 504
     return new ResponseEntity<>(new ApiError("Upstream timeout"), new HttpHeaders(), HttpStatus.GATEWAY_TIMEOUT);
   }
 }
